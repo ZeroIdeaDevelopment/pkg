@@ -21,7 +21,7 @@ module.exports = class extends Provider {
                 embed: {
                     title: pkg.name,
                     url: pkg.package_url,
-                    description: pkg.description,
+                    description: pkg.summary,
                     fields: [
                         {
                             name: 'Latest Version',
