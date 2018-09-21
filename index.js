@@ -2,7 +2,7 @@ const Eris = require('eris');
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
-const bot = new Eris(config.token, { maxShards: 'auto' });
+const bot = new Eris(config.token);
 const prefixes = config.prefixes || ['pkg '];
 
 const shortcutRegex = /^(\w+)\/(\S+)/
