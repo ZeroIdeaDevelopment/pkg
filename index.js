@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('./config');
 const bot = new Eris(config.token, { maxShards: 'auto' });
-const prefixes = config.prefixes || 'pkg ';
+const prefixes = config.prefixes || ['pkg '];
 
 const shortcutRegex = /^(\w+)\/(\S+)/
 
@@ -60,9 +60,9 @@ bot.on('messageCreate', async msg => {
     }
 });
 
-bot.on('connect', async () => {
+bot.on('connect', () => {
     console.log('connected');
-    await bot.editStatus('online', {
+    bot.editStatus('online', {
         type: 0,
         game: `with packages | ${prefixes[0]}help`
     });
