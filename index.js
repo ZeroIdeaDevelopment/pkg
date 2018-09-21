@@ -7,7 +7,7 @@ const prefixes = config.prefixes || ['pkg '];
 
 const shortcutRegex = /^(\w+)\/(\S+)/
 
-var providers = {};
+var providers = Object.create(null);
 
 fs.readdirSync(path.resolve('./providers')).forEach(provider => {
     let Provider = require(path.resolve('./providers', provider));
@@ -24,7 +24,7 @@ bot.on('messageCreate', async msg => {
         let provider = re[1];
         let package = re[2];
         let thing = [package];
-        if (providers[provider] && provider !== '__proto__') {
+        if (providers[provider]) {
             console.log(`searching ${provider} for ${package} via shortcut`)
             await providers[provider].execute(msg, thing);
         }
@@ -51,7 +51,7 @@ bot.on('messageCreate', async msg => {
             color: 0xDBB551
         }});
     } else {
-        if (providers[provider] && provider !== '__proto__') {
+        if (providers[provider]) {
             console.log('searching ' + provider + ' for ' + args);
             await providers[provider].execute(msg, args);
         }
