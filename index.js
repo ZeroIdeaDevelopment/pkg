@@ -37,14 +37,14 @@ bot.on('messageCreate', async msg => {
     let args = raw;
     
     if (provider === 'help') {
-        let desc = 'Commands:';
+        let desc = 'Providers:';
         Object.keys(providers).forEach(prov => {
             desc += '\n**';
             desc += prov;
             desc += '** - Searches ';
             desc += providers[prov].name;
         });
-        desc += '\n\nProviders can be accessed via `provider/query`, e.g. `npm/eris`. This only works at the start of your message.'
+        desc += '\n\nProviders can be accessed via `provider/query` or through `pkg provider query`, e.g. `npm/eris`/`pkg npm eris`. This only works at the start of your message.'
         await msg.channel.createMessage({embed: {
             title: 'pkg Help',
             description: desc,
