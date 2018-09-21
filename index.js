@@ -50,7 +50,7 @@ bot.on('messageCreate', async msg => {
             color: 0xDBB551
         }});
     } else {
-        if (providers[provider]) {
+        if (providers[provider] && provider !== '__proto__') {
             console.log('searching ' + provider + ' for ' + args);
             await providers[provider].execute(msg, args);
         }
