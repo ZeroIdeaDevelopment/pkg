@@ -57,8 +57,12 @@ bot.on('messageCreate', async msg => {
     }
 });
 
-bot.on('connect', async () => {
+bot.on('connect', () => {
     console.log('connected');
+});
+
+bot.on('ready', async () => {
+    console.log('ready');
     await bot.editStatus('online', {
         type: 0,
         game: `with packages | ${prefixes[0]}help`
