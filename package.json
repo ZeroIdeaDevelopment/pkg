@@ -1,0 +1,16 @@
+{
+  "name": "pkg",
+  "version": "1.0.0",
+  "description": "pkg search bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "LewisTehMinerz",
+  "license": "MIT",
+  "dependencies": {
+    "eris": "^0.9.0",
+    "node-fetch": "^2.2.0",
+    "xml2js": "^0.4.19"
+  }
+}

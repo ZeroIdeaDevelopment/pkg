@@ -1,0 +1,136 @@
+const Eris = require('eris');
+const fetch = require('node-fetch');
+const fs = require('fs');
+const path = require('path');
+const util = require('util');
+const bot = new Eris(require('./token'), { maxShards: 'auto' });
+const parseXml = util.promisify(require('xml2js').parseString);
+
+const providers = {
+    npm: {
+        for: 'npm',
+        logo: fs.readFileSync(path.resolve('./img/npm.png')),
+        async execute(msg, args) {
+            let results = await fetch('https://api.npms.io/v2/search?q=' + args.join('+'));
+            let json = await results.json();
+            if (json.code) {
+                await msg.channel.createMessage('<:icerror:435574504522121216>  |  API error! :(');
+            } else {
+                if (json.total < 1) {
+                    await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
+                } else {
+                    let package = json.results[0].package;
+                    let maintainers = '';
+                    package.maintainers.forEach(maintainer => {
+                        maintainers += maintainer.username;
+                        maintainers += ' (';
+                        maintainers += maintainer.email;
+                        maintainers += ')';
+                        maintainers += '\n';
+                    });
+                    await msg.channel.createMessage({
+                        embed: {
+                            title: package.name,
+                            url: package.links.npm,
+                            description: package.description,
+                            fields: [
+                                {
+                                    name: 'Latest Version',
+                                    value: package.version,
+                                    inline: true
+                                },
+                                {
+                                    name: 'Maintainers',
+                                    value: maintainers,
+                                    inline: true
+                                }
+                            ],
+                            color: 0xC1393B,
+                            thumbnail: { url: 'attachment://logo.png' }
+                        }
+                    }, { file: providers.npm.logo, name: 'logo.png' });
+                }
+            }
+        }
+    },
+    nuget: {
+        for: 'NuGet',
+        logo: fs.readFileSync(path.resolve('./img/nuget.png')),
+        async execute(msg, args) {
+            let results = await fetch('https://api-v2v3search-0.nuget.org/query?q=' + args.join('.'));
+            let json = await results.json();
+            if (json.totalHits < 1) {
+                await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
+            } else {
+                let package = json.data[0];
+                let authors = '';
+                package.authors.forEach(author => {
+                    authors += author;
+                    authors += '\n';
+                });
+                await msg.channel.createMessage({
+                    embed: {
+                        title: package.title,
+                        url: 'https://nuget.org/packages/' + package.title + '/',
+                        description: package.description,
+                        fields: [
+                            {
+                                name: 'Latest Version',
+                                value: package.version,
+                                inline: true
+                            },
+                            {
+                                name: 'Authors',
+                                value: authors,
+                                inline: true
+                            },
+                            {
+                                name: 'Total Downloads',
+                                value: package.totalDownloads,
+                                inline: true
+                            }
+                        ],
+                        color: 0x004681,
+                        thumbnail: { url: 'attachment://logo.png' }
+                    }
+                }, { file: providers.nuget.logo, name: 'logo.png' });
+            }
+        }
+    }
+};
+
+bot.on('messageCreate', async msg => {
+    if (msg.content.startsWith('pkg ')) {
+        let raw = msg.content.split(' ');
+        raw.shift();
+        let provider = raw[0];
+        raw.shift();
+        let args = raw;
+        
+        if (provider === 'help') {
+            let desc = 'Commands:';
+            Object.keys(providers).forEach(prov => {
+                desc += '\n**';
+                desc += prov;
+                desc += '** - Searches ';
+                desc += providers[prov].for;
+            });
+            await msg.channel.createMessage({embed: {
+                title: 'pkg Help',
+                description: desc,
+                color: 0xDBB551
+            }});
+        } else {
+            if (providers[provider]) {
+                console.log('searching ' + provider + ' for ' + args);
+                await providers[provider].execute(msg, args);
+            }
+        }
+    }
+});
+
+bot.on('connect', () => {
+    console.log('connected');
+});
+
+bot.connect();
