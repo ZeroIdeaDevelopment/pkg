@@ -65,7 +65,7 @@ bot.on('connect', () => {
 
 bot.on('ready', async () => {
     console.log('ready');
-    await bot.editStatus('away', {
+    await bot.editStatus('idle', {
         type: 0,
         name: `with packages | ${prefixes[0]}help`
     });
