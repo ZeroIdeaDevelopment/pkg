@@ -10,7 +10,7 @@ module.exports = class NuGet extends Provider {
         this.logo = fs.readFileSync(path.resolve('./img/nuget.png'));
     }
 
-    execute(msg, args) {
+    async execute(msg, args) {
         let results = await fetch('https://api-v2v3search-0.nuget.org/query?q=' + args.map(a => encodeURIComponent(a)).join('.'));
         let json = await results.json();
         if (json.totalHits < 1) {

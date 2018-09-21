@@ -10,7 +10,7 @@ module.exports = class npm extends Provider {
         this.logo = fs.readFileSync(path.resolve('./img/npm.png'));
     }
 
-    execute(msg, args) {
+    async execute(msg, args) {
         let results = await fetch('https://api.npms.io/v2/search?q=' + args.map(a => encodeURIComponent(a)).join('+'));
         let json = await results.json();
         if (json.code) {
