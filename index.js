@@ -3,7 +3,9 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
-const bot = new Eris(require('./token'), { maxShards: 'auto' });
+const config = require('./config');
+const bot = new Eris(config.token, { maxShards: 'auto' });
+const prefixes = config.prefixes || 'pkg ';
 const parseXml = util.promisify(require('xml2js').parseString);
 
 const providers = {
@@ -11,7 +13,7 @@ const providers = {
         for: 'npm',
         logo: fs.readFileSync(path.resolve('./img/npm.png')),
         async execute(msg, args) {
-            let results = await fetch('https://api.npms.io/v2/search?q=' + args.join('+'));
+            let results = await fetch('https://api.npms.io/v2/search?q=' + args.map(a => encodeURIComponent(a)).join('+'));
             let json = await results.json();
             if (json.code) {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  API error! :(');
@@ -57,7 +59,7 @@ const providers = {
         for: 'NuGet',
         logo: fs.readFileSync(path.resolve('./img/nuget.png')),
         async execute(msg, args) {
-            let results = await fetch('https://api-v2v3search-0.nuget.org/query?q=' + args.join('.'));
+            let results = await fetch('https://api-v2v3search-0.nuget.org/query?q=' + args.map(a => encodeURIComponent(a)).join('.'));
             let json = await results.json();
             if (json.totalHits < 1) {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
@@ -99,32 +101,44 @@ const providers = {
     }
 };
 
+const shortcutRegex = /^(\w+)\/(\S+)/
+
 bot.on('messageCreate', async msg => {
-    if (msg.content.startsWith('pkg ')) {
-        let raw = msg.content.split(' ');
-        raw.shift();
-        let provider = raw[0];
-        raw.shift();
-        let args = raw;
-        
-        if (provider === 'help') {
-            let desc = 'Commands:';
-            Object.keys(providers).forEach(prov => {
-                desc += '\n**';
-                desc += prov;
-                desc += '** - Searches ';
-                desc += providers[prov].for;
-            });
-            await msg.channel.createMessage({embed: {
-                title: 'pkg Help',
-                description: desc,
-                color: 0xDBB551
-            }});
-        } else {
-            if (providers[provider]) {
-                console.log('searching ' + provider + ' for ' + args);
-                await providers[provider].execute(msg, args);
-            }
+    let cprefix = prefixes.filter(a => msg.content.startsWith(a))[0];
+    if (!cprefix) {
+        let re = shortcutRegex.exec(msg.content);
+        if (!re) return;
+        let provider = re[1];
+        let package = re[2];
+        let thing = [package];
+        if (providers[provider]) {
+            console.log(`searching ${provider} for ${package} via shortcut`)
+            await providers[provider].execute(msg, thing);
+        }
+        return;
+    };
+    let raw = msg.content.slice(cprefix.length).split(' ');
+    let provider = raw[0];
+    raw.shift();
+    let args = raw;
+    
+    if (provider === 'help') {
+        let desc = 'Commands:';
+        Object.keys(providers).forEach(prov => {
+            desc += '\n**';
+            desc += prov;
+            desc += '** - Searches ';
+            desc += providers[prov].for;
+        });
+        await msg.channel.createMessage({embed: {
+            title: 'pkg Help',
+            description: desc,
+            color: 0xDBB551
+        }});
+    } else {
+        if (providers[provider]) {
+            console.log('searching ' + provider + ' for ' + args);
+            await providers[provider].execute(msg, args);
         }
     }
 });
