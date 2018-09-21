@@ -32,7 +32,7 @@ module.exports = class npm extends Provider {
                     embed: {
                         title: pkg.name,
                         url: pkg.links.npm,
-                        description: package.description,
+                        description: pkg.description,
                         fields: [
                             {
                                 name: 'Latest Version',
