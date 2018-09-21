@@ -65,9 +65,9 @@ bot.on('connect', () => {
 
 bot.on('ready', async () => {
     console.log('ready');
-    await bot.editStatus({
+    await bot.editStatus('away', {
         type: 0,
-        game: `with packages | ${prefixes[0]}help`
+        name: `with packages | ${prefixes[0]}help`
     });
 });
 
