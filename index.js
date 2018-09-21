@@ -15,10 +15,7 @@ fs.readdirSync(path.resolve('./providers')).forEach(provider => {
     providers[provider.substring(0, provider.length - 3)] = p;
 });
 
-console.log(providers);
-
 bot.on('messageCreate', async msg => {
-
     let cprefix = prefixes.filter(a => msg.content.startsWith(a))[0];
 
     if (!cprefix && (config.enableShortcuts || true)) {
