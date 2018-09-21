@@ -31,6 +31,7 @@ bot.on('messageCreate', async msg => {
         }
         return;
     }
+    if (!cprefix && config.disableShortcuts) return
 
     let raw = msg.content.slice(cprefix.length).split(' ');
     let provider = raw[0];
