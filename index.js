@@ -10,14 +10,15 @@ const shortcutRegex = /^(\w+)\/(\S+)/
 var providers = {};
 
 fs.readdirSync(path.resolve('./providers')).forEach(provider => {
-    let p = new provider();
+    let Provider = require(provider);
+    let p = new Provider();
     providers[p.name] = p;
 });
 
 bot.on('messageCreate', async msg => {
 
     let cprefix = prefixes.filter(a => msg.content.startsWith(a))[0];
-    
+
     if (!cprefix && (config.enableShortcuts || true)) {
         let re = shortcutRegex.exec(msg.content);
         if (!re) return;
