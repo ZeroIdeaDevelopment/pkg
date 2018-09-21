@@ -12,7 +12,7 @@ var providers = {};
 fs.readdirSync(path.resolve('./providers')).forEach(provider => {
     let Provider = require(path.resolve('./providers', provider));
     let p = new Provider();
-    providers[p.name] = p;
+    providers[provider] = p;
 });
 
 console.log(providers);

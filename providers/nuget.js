@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const Provider = require('../Provider');
 
-module.exports = class NuGet extends Provider {
+module.exports = class extends Provider {
     constructor() {
         super();
         this.name = 'NuGet';
