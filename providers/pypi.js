@@ -6,7 +6,7 @@ const Provider = require('../Provider');
 module.exports = class extends Provider {
     constructor() {
         super();
-        this.name = 'npm';
+        this.name = 'PyPI';
         this.logo = fs.readFileSync(path.resolve('./img/pypi.png'));
     }
     
@@ -40,4 +40,4 @@ module.exports = class extends Provider {
             }, { file: this.logo, name: 'logo.png' });
         }
     }
-}
+}   

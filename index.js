@@ -6,6 +6,9 @@ const bot = new Eris(config.token);
 const prefixes = config.prefixes || ['pkg '];
 
 const shortcutRegex = /^(\w+)\/(\S+)/
+const altShortcut = /(\S+)@(\w+)/
+// first is prov/arg
+// second is arg@prov
 
 var providers = Object.create(null);
 
@@ -20,13 +23,20 @@ bot.on('messageCreate', async msg => {
     let cprefix = prefixes.find(a => msg.content.startsWith(a));
 
     if (!cprefix && !config.disableShortcuts) {
+        let provider, pak;
         let re = shortcutRegex.exec(msg.content);
-        if (!re) return;
-        let provider = re[1];
-        let package = re[2];
-        let thing = [package];
+        if (!re) {
+            re = altShortcut.exec(msg.content);
+            if (!re) return
+            provider = re[2]
+            pak = re[1]
+        } else {
+            provider = re[1];
+            pak = re[2];
+        }
+        let thing = [pak];
         if (providers[provider]) {
-            console.log(`searching ${provider} for ${package} via shortcut`)
+            console.log(`searching ${provider} for ${pak} via shortcut`)
             await providers[provider].execute(msg, thing);
         }
         return;
