@@ -19,9 +19,9 @@ module.exports = class npm extends Provider {
             if (json.total < 1) {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             } else {
-                let package = json.results[0].package;
+                let pkg = json.results[0].package;
                 let maintainers = '';
-                package.maintainers.forEach(maintainer => {
+                pkg.maintainers.forEach(maintainer => {
                     maintainers += maintainer.username;
                     maintainers += ' (';
                     maintainers += maintainer.email;
@@ -30,13 +30,13 @@ module.exports = class npm extends Provider {
                 });
                 await msg.channel.createMessage({
                     embed: {
-                        title: package.name,
-                        url: package.links.npm,
+                        title: pkg.name,
+                        url: pkg.links.npm,
                         description: package.description,
                         fields: [
                             {
                                 name: 'Latest Version',
-                                value: package.version,
+                                value: pkg.version,
                                 inline: true
                             },
                             {

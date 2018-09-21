@@ -16,21 +16,21 @@ module.exports = class NuGet extends Provider {
         if (json.totalHits < 1) {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
         } else {
-            let package = json.data[0];
+            let pkg = json.data[0];
             let authors = '';
-            package.authors.forEach(author => {
+            pkg.authors.forEach(author => {
                 authors += author;
                 authors += '\n';
             });
             await msg.channel.createMessage({
                 embed: {
-                    title: package.title,
-                    url: 'https://nuget.org/packages/' + package.title + '/',
-                    description: package.description,
+                    title: pkg.title,
+                    url: 'https://nuget.org/packages/' + pkg.title + '/',
+                    description: pkg.description,
                     fields: [
                         {
                             name: 'Latest Version',
-                            value: package.version,
+                            value: pkg.version,
                             inline: true
                         },
                         {
@@ -40,7 +40,7 @@ module.exports = class NuGet extends Provider {
                         },
                         {
                             name: 'Total Downloads',
-                            value: package.totalDownloads,
+                            value: pkg.totalDownloads,
                             inline: true
                         }
                     ],
