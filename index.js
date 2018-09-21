@@ -105,7 +105,7 @@ const shortcutRegex = /^(\w+)\/(\S+)/
 
 bot.on('messageCreate', async msg => {
     let cprefix = prefixes.filter(a => msg.content.startsWith(a))[0];
-    if (!cprefix) {
+    if (!cprefix && (config.enableShortcuts || true)) {
         let re = shortcutRegex.exec(msg.content);
         if (!re) return;
         let provider = re[1];
@@ -143,8 +143,12 @@ bot.on('messageCreate', async msg => {
     }
 });
 
-bot.on('connect', () => {
+bot.on('connect', async () => {
     console.log('connected');
+    await bot.editStatus('online', {
+        type: 0,
+        game: `with packages | ${prefixes[0]}help`
+    })
 });
 
 bot.connect();
