@@ -10,7 +10,7 @@ const shortcutRegex = /^(\w+)\/(\S+)/
 var providers = {};
 
 fs.readdirSync(path.resolve('./providers')).forEach(provider => {
-    let Provider = require(provider);
+    let Provider = require(path.resolve('./providers', provider));
     let p = new Provider();
     providers[p.name] = p;
 });
