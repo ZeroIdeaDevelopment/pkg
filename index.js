@@ -44,6 +44,7 @@ bot.on('messageCreate', async msg => {
             desc += '** - Searches ';
             desc += providers[prov].name;
         });
+        desc += '\n\nProviders can be accessed via `provider/query`, e.g. `npm/eris`. This only works at the start of your message.'
         await msg.channel.createMessage({embed: {
             title: 'pkg Help',
             description: desc,
