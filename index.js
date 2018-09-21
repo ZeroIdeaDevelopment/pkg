@@ -19,7 +19,7 @@ bot.on('messageCreate', async msg => {
     if (msg.author.bot) return;
     let cprefix = prefixes.find(a => msg.content.startsWith(a));
 
-    if (!cprefix) {
+    if (!cprefix && !config.disableShortcuts) {
         let re = shortcutRegex.exec(msg.content);
         if (!re) return;
         let provider = re[1];
