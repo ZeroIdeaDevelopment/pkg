@@ -24,7 +24,7 @@ bot.on('messageCreate', async msg => {
         let provider = re[1];
         let package = re[2];
         let thing = [package];
-        if (providers[provider]) {
+        if (providers[provider] && provider !== '__proto__') {
             console.log(`searching ${provider} for ${package} via shortcut`)
             await providers[provider].execute(msg, thing);
         }
