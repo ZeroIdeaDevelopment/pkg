@@ -16,9 +16,10 @@ fs.readdirSync(path.resolve('./providers')).forEach(provider => {
 });
 
 bot.on('messageCreate', async msg => {
-    let cprefix = prefixes.filter(a => msg.content.startsWith(a))[0];
+    if (msg.author.bot) return;
+    let cprefix = prefixes.find(a => msg.content.startsWith(a));
 
-    if (!cprefix && (config.enableShortcuts !== undefined && config.enableShortcuts === true)) {
+    if (!cprefix) {
         let re = shortcutRegex.exec(msg.content);
         if (!re) return;
         let provider = re[1];
@@ -64,9 +65,9 @@ bot.on('connect', () => {
 
 bot.on('ready', async () => {
     console.log('ready');
-    await bot.editStatus('online', {
+    await bot.editStatus('idle', {
         type: 0,
-        game: `with packages | ${prefixes[0]}help`
+        name: `with packages | ${prefixes[0]}help`
     });
 });
 
