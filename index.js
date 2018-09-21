@@ -18,7 +18,7 @@ fs.readdirSync(path.resolve('./providers')).forEach(provider => {
 bot.on('messageCreate', async msg => {
     let cprefix = prefixes.filter(a => msg.content.startsWith(a))[0];
 
-    if (!cprefix && (config.enableShortcuts === true)) {
+    if (!cprefix && (config.enableShortcuts !== undefined && config.enableShortcuts === true)) {
         let re = shortcutRegex.exec(msg.content);
         if (!re) return;
         let provider = re[1];
