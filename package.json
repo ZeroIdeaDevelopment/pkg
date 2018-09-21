@@ -10,7 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "eris": "^0.9.0",
-    "node-fetch": "^2.2.0",
-    "xml2js": "^0.4.19"
+    "node-fetch": "^2.2.0"
   }
 }
