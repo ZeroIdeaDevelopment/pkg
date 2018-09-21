@@ -15,6 +15,8 @@ fs.readdirSync(path.resolve('./providers')).forEach(provider => {
     providers[p.name] = p;
 });
 
+console.log(providers);
+
 bot.on('messageCreate', async msg => {
 
     let cprefix = prefixes.filter(a => msg.content.startsWith(a))[0];
@@ -63,7 +65,7 @@ bot.on('connect', async () => {
     await bot.editStatus('online', {
         type: 0,
         game: `with packages | ${prefixes[0]}help`
-    })
+    });
 });
 
 bot.connect();
