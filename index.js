@@ -56,7 +56,7 @@ bot.on('messageCreate', async msg => {
             desc += '** - Searches ';
             desc += providers[prov].name;
         });
-        desc += '\n\nProviders can be accessed via `provider/query` or through `pkg provider query`, e.g. `npm/eris` or `pkg npm eris`. This only works at the start of your message.'
+        desc += '\n\nProviders can be accessed via `provider/query`, `query@provider` or through `pkg provider query`, e.g. `npm/eris`, `eris@npm` or `pkg npm eris`. This only works at the start of your message EXCEPT for `query@provider`. If you wanted, you can say `The best library is eris@npm` and pkg will link it for you.'
         await msg.channel.createMessage({embed: {
             title: 'pkg Help',
             description: desc,
