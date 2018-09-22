@@ -20,15 +20,23 @@ module.exports = class extends Provider {
         if (json.length < 1) {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
         } else {
-            let pkgToFind = json[0];
-            let maintainerResults = await fetch('https://hackage.haskell.org/package/' + pkgToFind + '/maintainers');
+            let pkgToFind = json[0].name;
+            let maintainerResults = await fetch('https://hackage.haskell.org/package/' + pkgToFind + '/maintainers', {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
             let jsonMaintainers = await maintainerResults.json();
             let maintainers = '';
             jsonMaintainers.members.forEach(maintainer => {
                 maintainers += maintainer.username;
                 maintainers += '\n';
             });
-            let versionResults = await fetch('https://hackage.haskell.org/package/' + pkgToFind + '/preferred');
+            let versionResults = await fetch('https://hackage.haskell.org/package/' + pkgToFind + '/preferred', {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
             let jsonVersions = await versionResults.json();
             let latestVersion = jsonVersions['normal-version'][0];
             let cabalResults = await fetch('https://hackage.haskell.org/package/' + pkgToFind + '-' + latestVersion + '/' + pkgToFind + '.cabal');
