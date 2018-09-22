@@ -11,7 +11,7 @@ module.exports = class extends Provider {
     }
 
     async execute(msg, args) {
-        let search = await fetch('https://hackage.haskell.org/packages/search?terms=' + encodeURIComponent(args.join('+')), {
+        let search = await fetch('https://hackage.haskell.org/packages/search?terms=' + args.map(a => encodeURIComponent(a)).join('+'), {
             headers: {
                 'Accept': 'application/json'
             }
