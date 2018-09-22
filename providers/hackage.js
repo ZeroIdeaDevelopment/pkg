@@ -12,7 +12,7 @@ module.exports = class extends Provider {
 
     async execute(msg, args) {
         let search = await fetch('https://hackage.haskell.org/packages/search?terms=' + encodeURIComponent(args.join('+')));
-        let json = await results.json();
+        let json = await search.json();
         if (json.length < 1) {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
         } else {
