@@ -25,7 +25,7 @@ module.exports = class extends Provider {
             await msg.channel.createMessage({
                 embed: {
                     title: pkg.title,
-                    url: 'https://nuget.org/packages/' + encodeURIComponent(pkg.id) + '/',
+                    url: 'https://nuget.org/packages/' + pkg.id + '/',
                     description: pkg.description,
                     fields: [
                         {
