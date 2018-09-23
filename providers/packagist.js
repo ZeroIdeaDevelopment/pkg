@@ -44,7 +44,7 @@ module.exports = class extends Provider {
                                 inline: true
                             }
                         ],
-                        color: 0xCB0000,
+                        color: 0xD9E0F3,
                         thumbnail: { url: 'attachment://logo.png' }
                     }
                 }, { file: this.logo, name: 'logo.png' });
