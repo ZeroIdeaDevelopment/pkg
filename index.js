@@ -100,8 +100,6 @@ async function postStats() {
         headers: { Authorization: config.apiKeys.dbots, 'Content-Type': 'application/json' }
     });
 
-    console.log(await res.json());
-
     res = await fetch(dblEndpoint, {
         method: 'POST',
         body: JSON.stringify(obj),
