@@ -88,7 +88,7 @@ bot.connect();
 
 async function postStats() {
     let dblEndpoint = 'https://discordbots.org/api/bot/' + bot.user.id + '/stats';
-    let dbotsEndpoint = 'https://bots.discord.pw/api/bot/' + bot.user.id + '/stats';
+    let dbotsEndpoint = 'https://bots.discord.pw/api/bots/' + bot.user.id + '/stats';
 
     let obj = {
         server_count: bot.guilds.filter(a => true).length
