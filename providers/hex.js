@@ -22,7 +22,7 @@ module.exports = class extends Provider {
                 let pkg = json;
                 let maintainers = '';
                 let owners = '';
-                pkg.maintainers.forEach(maintainer => {
+                pkg.meta.maintainers.forEach(maintainer => {
                     maintainers += maintainer;
                     maintainers += '\n';
                 });
