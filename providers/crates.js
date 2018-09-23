@@ -19,15 +19,17 @@ module.exports = class extends Provider {
             if (json.total < 1) {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             } else {
-                let pkg = json.crates[0];
-                let maintainers = '';
-                pkg.maintainers.forEach(maintainer => {
-                    maintainers += maintainer.username;
-                    maintainers += ' (';
-                    maintainers += maintainer.email;
-                    maintainers += ')';
-                    maintainers += '\n';
+                let ownersRaw = await fetch('https://crates.io' + json.links.owners);
+                let ownersData = await ownersRaw.json();
+                let owners = '';
+                ownersData.users.forEach(user => {
+                    owners += '[';
+                    owners += user.name;
+                    owners += '](';
+                    owners += user.url;
+                    owners += ')';
                 });
+                let pkg = json.crates[0];
                 await msg.channel.createMessage({
                     embed: {
                         title: pkg.name,
@@ -40,7 +42,7 @@ module.exports = class extends Provider {
                                 inline: true
                             },
                             {
-                                name: 'Maintainers',
+                                name: 'Owners',
                                 value: maintainers,
                                 inline: true
                             },
