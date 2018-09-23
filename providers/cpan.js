@@ -20,7 +20,6 @@ module.exports = class extends Provider {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             } else {
                 let pkg = json.hits.hits[0]._source;
-                console.log(pkg);
                 await msg.channel.createMessage({ content: 'CPAN is really broken at the moment, please don\'t trust the data here!',
                     embed: {
                         title: pkg.documentation,
