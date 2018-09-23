@@ -49,7 +49,7 @@ module.exports = class extends Provider {
                                 value: pkg.downloads
                             }
                         ],
-                        color: 0xCB0000,
+                        color: 0xE7AB39,
                         thumbnail: { url: 'attachment://logo.png' }
                     }
                 }, { file: this.logo, name: 'logo.png' });
