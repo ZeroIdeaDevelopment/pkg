@@ -7,7 +7,7 @@ module.exports = class extends Provider {
         this.logo = null;
     }
 
-    execute(msg, args) {
-        msg.channel.createMessage('<a:bongocat:492818212187144214>');
+    async execute(msg, args) {
+        await msg.channel.createMessage('<a:bongocat:492818212187144214>');
     }
 }
