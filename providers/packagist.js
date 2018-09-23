@@ -27,12 +27,19 @@ module.exports = class extends Provider {
                     maintainers += maintainer.name;
                     maintainers += '\n';
                 });
+                let versions = Object.keys(pkg.versions);
+                let latestVersion = versions[1] || versions[0]; // versions is an array of versions, 0 is always dev-master and 1 is the latest, but if 1 isn't set fall back to dev-master
                 await msg.channel.createMessage({
                     embed: {
                         title: pkg.name,
                         url: 'https://packagist.org/packages/' + pkg.name,
                         description: pkg.description,
                         fields: [
+                            {
+                                name: 'Latest Version',
+                                value: latestVersion,
+                                inline: true
+                            },
                             {
                                 name: 'Maintainers',
                                 value: maintainers,
