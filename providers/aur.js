@@ -19,7 +19,10 @@ module.exports = class extends Provider {
             if (json.resultcount < 1) {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             } else {
-                let pkg = json.results[0];
+                let basic = json.results[0];
+                let extendedInfo = await fetch('https://aur.archlinux.org/rpc/?v=5&type=search&arg[]=' + basic.Name);
+                let infoJson = await extendedInfo.json();
+                let pkg = infoJson.results[0];
                 await msg.channel.createMessage({
                     embed: {
                         title: pkg.Name,
@@ -34,6 +37,16 @@ module.exports = class extends Provider {
                             {
                                 name: 'Maintainer',
                                 value: pkg.Maintainer,
+                                inline: true
+                            },
+                            {
+                                name: 'Votes',
+                                value: pkg.NumVotes,
+                                inline: true
+                            },
+                            {
+                                name: 'Depends On',
+                                value: pkg.Depends.join('\n'),
                                 inline: true
                             }
                         ],
