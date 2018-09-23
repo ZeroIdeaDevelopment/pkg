@@ -6,7 +6,7 @@ const Provider = require('../Provider');
 module.exports = class extends Provider {
     constructor() {
         super();
-        this.name = 'Maven';
+        this.name = 'Maven Central';
         this.logo = fs.readFileSync(path.resolve('./img/maven.png'));
     }
 
