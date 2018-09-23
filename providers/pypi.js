@@ -11,33 +11,35 @@ module.exports = class extends Provider {
     }
     
     async execute(msg, args) {
-        let results = await fetch('https://pypi.org/pypi/' + args.map(a => encodeURIComponent(a)).join('+') + '/json');
-        let json = await results.json();
-        if (!json.info) {
+        let json;
+        try {
+            let results = await fetch('https://pypi.org/pypi/' + args.map(a => encodeURIComponent(a)).join('+') + '/json');
+            let json = await results.json();
+        } catch (e) {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
-        } else {
-            let pkg = json.info;
-            await msg.channel.createMessage({
-                embed: {
-                    title: pkg.name,
-                    url: pkg.package_url,
-                    description: pkg.summary,
-                    fields: [
-                        {
-                            name: 'Latest Version',
-                            value: pkg.version,
-                            inline: true
-                        },
-                        {
-                            name: 'Author',
-                            value: pkg.author,
-                            inline: true
-                        }
-                    ],
-                    color: 0xFFD242,
-                    thumbnail: { url: 'attachment://logo.png' }
-                }
-            }, { file: this.logo, name: 'logo.png' });
+            return;
         }
+        let pkg = json.info;
+        await msg.channel.createMessage({
+            embed: {
+                title: pkg.name,
+                url: pkg.package_url,
+                description: pkg.summary,
+                fields: [
+                    {
+                        name: 'Latest Version',
+                        value: pkg.version,
+                        inline: true
+                    },
+                    {
+                        name: 'Author',
+                        value: pkg.author,
+                        inline: true
+                    }
+                ],
+                color: 0xFFD242,
+                thumbnail: { url: 'attachment://logo.png' }
+            }
+        }, { file: this.logo, name: 'logo.png' });
     }
 }   
