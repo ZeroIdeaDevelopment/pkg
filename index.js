@@ -94,17 +94,21 @@ async function postStats() {
         server_count: bot.guilds.filter(a => true).length
     }
 
-    await fetch(dbotsEndpoint, {
+    let res = await fetch(dbotsEndpoint, {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { Authorization: config.apiKeys.dbots, 'Content-Type': 'application/json' }
     });
 
-    await fetch(dblEndpoint, {
+    console.log(await res.json());
+
+    res = await fetch(dblEndpoint, {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { Authorization: config.apiKeys.dbl, 'Content-Type': 'application/json' }
     });
+
+    console.log(await res.json());
 
     console.log('stats posted');
 }
