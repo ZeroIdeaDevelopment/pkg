@@ -28,7 +28,7 @@ module.exports = class extends Provider {
                     owners += user.name;
                     owners += '](';
                     owners += user.url;
-                    owners += ')';
+                    owners += ')\n';
                 });
                 await msg.channel.createMessage({
                     embed: {
