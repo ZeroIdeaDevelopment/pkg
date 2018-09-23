@@ -41,7 +41,7 @@ module.exports = class extends Provider {
                         fields: [
                             {
                                 name: 'Latest Version',
-                                value: pkg.version,
+                                value: pkg.releases[0].version,
                                 inline: true
                             },
                             {
