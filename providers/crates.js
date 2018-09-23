@@ -11,7 +11,7 @@ module.exports = class extends Provider {
     }
 
     async execute(msg, args) {
-        let results = await fetch('https://api.npms.io/v2/search?q=' + args.map(a => encodeURIComponent(a)).join('+'));
+        let results = await fetch('https://crates.io/api/v1/crates?q=' + args.map(a => encodeURIComponent(a)).join('+'));
         let json = await results.json();
         if (!json) {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  API error! :(');
