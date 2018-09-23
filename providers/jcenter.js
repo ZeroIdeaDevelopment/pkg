@@ -17,10 +17,10 @@ module.exports = class extends Provider {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  API error! :(');
         } else {
             if (json.length < 1) {
-                await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
+                await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found. (This is very broken!)');
             } else {
                 let pkg = json[0];
-                await msg.channel.createMessage({
+                await msg.channel.createMessage({ content: 'Apparently this is very broken, don\'t use kthx.',
                     embed: {
                         title: pkg.name,
                         description: pkg.description,
