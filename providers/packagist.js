@@ -19,7 +19,7 @@ module.exports = class extends Provider {
             if (json.total < 1) {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             } else {
-                let pkgResults = await fetch('https://packagist.org/packages/' + json.name + '.json');
+                let pkgResults = await fetch('https://packagist.org/packages/' + json.name.replace('\/', '/') + '.json');
                 let pkgData = await pkgResults.json();
                 let pkg = pkgData.package;
                 let maintainers = '';
