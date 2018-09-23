@@ -4,6 +4,7 @@ const path = require('path');
 const config = require('./config');
 const bot = new Eris(config.token);
 const prefixes = config.prefixes || ['pkg '];
+const fetch = require('node-fetch');
 
 const shortcutRegex = /^(\w+)\/(\S+)/
 const altShortcut = /(\S+)@(\w+)/
