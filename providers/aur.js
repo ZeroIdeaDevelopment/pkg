@@ -22,7 +22,9 @@ module.exports = class extends Provider {
                 let basic = json.results[0];
                 let extendedInfo = await fetch('https://aur.archlinux.org/rpc/?v=5&type=search&arg[]=' + basic.Name);
                 let infoJson = await extendedInfo.json();
+                console.log(infoJson);
                 let pkg = infoJson.results[0];
+                console.log(pkg);
                 await msg.channel.createMessage({
                     embed: {
                         title: pkg.Name,
