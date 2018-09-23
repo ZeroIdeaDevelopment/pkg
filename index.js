@@ -16,6 +16,7 @@ fs.readdirSync(path.resolve('./providers')).forEach(provider => {
     let Provider = require(path.resolve('./providers', provider));
     let p = new Provider();
     providers[provider.substring(0, provider.length - 3)] = p;
+    console.log('loaded provider ' + provider);
 });
 
 bot.on('messageCreate', async msg => {
