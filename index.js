@@ -104,5 +104,7 @@ async function postStats() {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { Authorization: config.apiKeys.dbl, 'Content-Type': 'application/json' }
-    })
+    });
+
+    console.log('stats posted');
 }
