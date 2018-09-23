@@ -2,7 +2,6 @@ const Eris = require('eris');
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
-const DBL = require('dblapi.js');
 const bot = new Eris(config.token);
 const prefixes = config.prefixes || ['pkg '];
 
@@ -10,9 +9,6 @@ const shortcutRegex = /^(\w+)\/(\S+)/
 const altShortcut = /(\S+)@(\w+)/
 // first is prov/arg
 // second is arg@prov
-
-var dbl;
-
 var providers = Object.create(null);
 
 fs.readdirSync(path.resolve('./providers')).forEach(provider => {
@@ -84,8 +80,24 @@ bot.on('ready', async () => {
         type: 0,
         name: `with packages | ${prefixes[0]}help`
     });
-    dbl = new DBL(config.apiKeys.dbl, bot);
-    dbl.on('posted', () => {console.log('posted stats to dbl')});
+    await postStats();
 });
 
 bot.connect();
+
+async function postStats() {
+    let dblEndpoint = 'https://discordbots.org/api/bot/' + bot.user.id + '/stats';
+    let dbotsEndpoint = 'https://bots.discord.pw/api/bot/' + bot.user.id + '/stats';
+
+    await fetch(dbotsEndpoint, {
+        method: 'POST',
+        body: JSON.stringify(obj),
+        headers: { Authorization: config.apiKeys.dbots, 'Content-Type': 'application/json' }
+    });
+
+    await fetch(dblEndpoint, {
+        method: 'POST',
+        body: JSON.stringify(obj),
+        headers: { Authorization: config.apiKeys.dbl, 'Content-Type': 'application/json' }
+    })
+}
