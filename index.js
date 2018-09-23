@@ -84,6 +84,14 @@ bot.on('ready', async () => {
     await postStats();
 });
 
+bot.on('guildCreate', async () => {
+    await postStats();
+});
+
+bot.on('guildDelete', async () => {
+    await postStats();
+});
+
 bot.connect();
 
 async function postStats() {
@@ -94,19 +102,17 @@ async function postStats() {
         server_count: bot.guilds.filter(a => true).length
     }
 
-    let res = await fetch(dbotsEndpoint, {
+    await fetch(dbotsEndpoint, {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { Authorization: config.apiKeys.dbots, 'Content-Type': 'application/json' }
     });
 
-    res = await fetch(dblEndpoint, {
+    await fetch(dblEndpoint, {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { Authorization: config.apiKeys.dbl, 'Content-Type': 'application/json' }
     });
-
-    console.log(await res.json());
 
     console.log('stats posted');
 }
