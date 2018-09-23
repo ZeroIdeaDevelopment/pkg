@@ -16,7 +16,7 @@ module.exports = class extends Provider {
         if (!json) {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  API error! :(');
         } else {
-            if (json.resultCount < 1) {
+            if (json.resultcount < 1) {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             } else {
                 let pkg = json.results[0];
