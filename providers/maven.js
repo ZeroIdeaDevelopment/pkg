@@ -6,8 +6,8 @@ const Provider = require('../Provider');
 module.exports = class extends Provider {
     constructor() {
         super();
-        this.name = 'Ruby Gems';
-        this.logo = fs.readFileSync(path.resolve('./img/gems.png'));
+        this.name = 'Maven';
+        this.logo = fs.readFileSync(path.resolve('./img/maven.png'));
     }
 
     async execute(msg, args) {
@@ -31,7 +31,7 @@ module.exports = class extends Provider {
                                 inline: true
                             }
                         ],
-                        color: 0xC84631,
+                        color: 0x842777,
                         thumbnail: { url: 'attachment://logo.png' }
                     }
                 }, { file: this.logo, name: 'logo.png' });
