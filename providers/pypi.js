@@ -15,6 +15,7 @@ module.exports = class extends Provider {
         try {
             let results = await fetch('https://pypi.org/pypi/' + args.map(a => encodeURIComponent(a)).join('+') + '/json');
             json = await results.json();
+            if (json.info.author === '') throw new Error();
         } catch (e) {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             return;
