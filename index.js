@@ -2,6 +2,7 @@ const Eris = require('eris');
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
+const DBL = require('dblapi.js');
 const bot = new Eris(config.token);
 const prefixes = config.prefixes || ['pkg '];
 
@@ -9,6 +10,8 @@ const shortcutRegex = /^(\w+)\/(\S+)/
 const altShortcut = /(\S+)@(\w+)/
 // first is prov/arg
 // second is arg@prov
+
+var dbl;
 
 var providers = Object.create(null);
 
@@ -81,6 +84,8 @@ bot.on('ready', async () => {
         type: 0,
         name: `with packages | ${prefixes[0]}help`
     });
+    dbl = new DBL(config.apiKeys.dbl, bot);
+    dbl.on('posted', () => {console.log('posted stats to dbl')});
 });
 
 bot.connect();

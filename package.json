@@ -9,6 +9,7 @@
   "author": "LewisTehMinerz",
   "license": "MIT",
   "dependencies": {
+    "dblapi.js": "^2.2.0",
     "eris": "^0.9.0",
     "node-fetch": "^2.2.0"
   }
