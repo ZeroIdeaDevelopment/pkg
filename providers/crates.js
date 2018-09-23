@@ -43,7 +43,7 @@ module.exports = class extends Provider {
                             },
                             {
                                 name: 'Owners',
-                                value: maintainers,
+                                value: ownersData,
                                 inline: true
                             },
                             {
