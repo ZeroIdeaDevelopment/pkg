@@ -21,7 +21,7 @@ module.exports = class extends Provider {
             } else {
                 let pkg = json.hits.hits[0]._source;
                 console.log(pkg);
-                await msg.channel.createMessage({
+                await msg.channel.createMessage({ content: 'CPAN is really broken at the moment, please don\'t trust the data here!',
                     embed: {
                         title: pkg.documentation,
                         url: 'https://metacpan.org/pod/' + pkg.documentation,
@@ -38,7 +38,7 @@ module.exports = class extends Provider {
                                 inline: true
                             }
                         ],
-                        color: 0xCF163D,
+                        color: 0xDB3737,
                         thumbnail: { url: 'attachment://logo.png' }
                     }
                 }, { file: this.logo, name: 'logo.png' });
