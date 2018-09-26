@@ -24,6 +24,7 @@ bot.on('messageCreate', async msg => {
     let cprefix = prefixes.find(a => msg.content.startsWith(a));
 
     if (!cprefix && !config.disableShortcuts) {
+        if (msg.channel.id === '110373943822540800') return; // disable in dbots #general
         let provider, pak;
         let re = shortcutRegex.exec(msg.content);
         if (!re) {
