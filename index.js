@@ -96,24 +96,26 @@ bot.on('guildDelete', async () => {
 bot.connect();
 
 async function postStats() {
-    let dblEndpoint = 'https://discordbots.org/api/bots/' + bot.user.id + '/stats';
-    let dbotsEndpoint = 'https://bots.discord.pw/api/bots/' + bot.user.id + '/stats';
+    if (config.postStats) {
+        let dblEndpoint = 'https://discordbots.org/api/bots/' + bot.user.id + '/stats';
+        let dbotsEndpoint = 'https://bots.discord.pw/api/bots/' + bot.user.id + '/stats';
 
-    let obj = {
-        server_count: bot.guilds.filter(a => true).length
+        let obj = {
+            server_count: bot.guilds.filter(a => true).length
+        }
+
+        await fetch(dbotsEndpoint, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: { Authorization: config.apiKeys.dbots, 'Content-Type': 'application/json' }
+        });
+
+        await fetch(dblEndpoint, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: { Authorization: config.apiKeys.dbl, 'Content-Type': 'application/json' }
+        });
+
+        console.log('stats posted');
     }
-
-    await fetch(dbotsEndpoint, {
-        method: 'POST',
-        body: JSON.stringify(obj),
-        headers: { Authorization: config.apiKeys.dbots, 'Content-Type': 'application/json' }
-    });
-
-    await fetch(dblEndpoint, {
-        method: 'POST',
-        body: JSON.stringify(obj),
-        headers: { Authorization: config.apiKeys.dbl, 'Content-Type': 'application/json' }
-    });
-
-    console.log('stats posted');
 }
