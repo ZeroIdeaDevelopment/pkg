@@ -11,7 +11,7 @@ module.exports = class extends Provider {
     }
 
     async execute(msg, args) {
-        if (!whitelist.includes(msg.author.id)) {
+        if (!whitelist.includes(msg.author.id) || !whitelist.indexOf (msg.author.id) > -1) {
             await msg.channel.createMessage('<:icerror:435574504522121216> | You are unauthorized to perform these actions.')
             return
         }
