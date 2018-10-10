@@ -101,7 +101,7 @@ async function postStats() {
     let dboatsEndpoint = 'https://discordboats.xyz/api/bot/' + bot.user.id;
     
     let obj = {
-        server_count: bot.guilds.length
+        server_count: bot.guilds.size
     }
     
     await fetch(dbotsEndpoint, {
