@@ -8,6 +8,6 @@ module.exports = class extends Provider {
     }
 
     async execute(msg, args) {
-        await msg.channel.createMessage('<a:bongocat:492818212187144214>');
+        await msg.channel.createMessage('<a:bongocat:499655102030675968>');
     }
 }
