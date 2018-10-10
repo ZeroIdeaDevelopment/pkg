@@ -22,8 +22,9 @@ fs.readdirSync(path.resolve('./providers')).forEach(provider => {
 bot.on('messageCreate', async msg => {
     if (msg.author.bot) return;
     let cprefix = prefixes.find(a => msg.content.startsWith(a));
-
+    
     if (!cprefix && !config.disableShortcuts) {
+        if (msg.channel.id === '110373943822540800') return; // disable in dbots #general
         let provider, pak;
         let re = shortcutRegex.exec(msg.content);
         if (!re) {
@@ -43,7 +44,7 @@ bot.on('messageCreate', async msg => {
         return;
     }
     if (!cprefix && config.disableShortcuts) return
-
+    
     let raw = msg.content.slice(cprefix.length).split(' ');
     let provider = raw[0];
     raw.shift();
@@ -98,28 +99,28 @@ async function postStats() {
     let dblEndpoint = 'https://discordbots.org/api/bots/' + bot.user.id + '/stats';
     let dbotsEndpoint = 'https://bots.discord.pw/api/bots/' + bot.user.id + '/stats';
     let dboatsEndpoint = 'https://discordboats.xyz/api/bot/' + bot.user.id;
-
+    
     let obj = {
         server_count: bot.guilds.filter(a => true).length
     }
-
+    
     await fetch(dbotsEndpoint, {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { Authorization: config.apiKeys.dbots, 'Content-Type': 'application/json' }
     });
-
+    
     await fetch(dblEndpoint, {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { Authorization: config.apiKeys.dbl, 'Content-Type': 'application/json' }
     });
-
+    
     await fetch(dboatsEndpoint, {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { Authorization: config.apiKeys.dboats, 'Content-Type': 'application/json' }
     });
-
+    
     console.log('stats posted');
 }
