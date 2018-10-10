@@ -97,6 +97,7 @@ bot.connect();
 async function postStats() {
     let dblEndpoint = 'https://discordbots.org/api/bots/' + bot.user.id + '/stats';
     let dbotsEndpoint = 'https://bots.discord.pw/api/bots/' + bot.user.id + '/stats';
+    let dboatsEndpoint = 'https://discordboats.xyz/api/bot/' + bot.user.id;
 
     let obj = {
         server_count: bot.guilds.filter(a => true).length
@@ -112,6 +113,12 @@ async function postStats() {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { Authorization: config.apiKeys.dbl, 'Content-Type': 'application/json' }
+    });
+
+    await fetch(dboatsEndpoint, {
+        method: 'POST',
+        body: JSON.stringify(obj),
+        headers: { Authorization: config.apiKeys.dboats, 'Content-Type': 'application/json' }
     });
 
     console.log('stats posted');
