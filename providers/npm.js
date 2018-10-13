@@ -11,15 +11,15 @@ module.exports = class extends Provider {
     }
 
     async execute(msg, args) {
-        let results = await fetch('https://api.npms.io/v2/search?q=' + args.map(a => encodeURIComponent(a)).join('+'));
+        let results = await fetch('https://www.npmjs.com/search/suggestions?q=' + args.map(a => encodeURIComponent(a)).join('+'));
         let json = await results.json();
         if (json.code) {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  API error! :(');
         } else {
-            if (json.total < 1) {
+            if (json.length < 1) {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             } else {
-                let pkg = json.results[0].package;
+                let pkg = json.results[0];
                 let maintainers = '';
                 pkg.maintainers.forEach(maintainer => {
                     maintainers += maintainer.username;
