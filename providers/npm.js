@@ -19,7 +19,7 @@ module.exports = class extends Provider {
             if (json.length < 1) {
                 await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             } else {
-                let pkg = json.results[0];
+                let pkg = json[0];
                 let maintainers = '';
                 pkg.maintainers.forEach(maintainer => {
                     maintainers += maintainer.username;
