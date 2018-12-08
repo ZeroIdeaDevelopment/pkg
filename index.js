@@ -108,11 +108,11 @@ async function postStats() {
         guildCount: bot.guilds.size
     }
     
-    await fetch(dbotsEndpoint, {
+    console.log(await (await fetch(dbotsEndpoint, {
         method: 'POST',
         body: JSON.stringify(obj2),
         headers: { Authorization: config.apiKeys.dbots, 'Content-Type': 'application/json' }
-    });
+    })).text());
     
     await fetch(dblEndpoint, {
         method: 'POST',
