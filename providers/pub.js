@@ -13,17 +13,29 @@ module.exports = class extends Provider {
     async execute(msg, args) {
         let json;
         try {
-            let results = await fetch('https://pub.dartlang.org/api/packages/' + args.map(a => encodeURIComponent(a)).join('+'));
+            let results = await fetch('https://pub.dev/api/packages/' + args.map(a => encodeURIComponent(a)).join('+'));
             json = await results.json();
         } catch (e) {
             await msg.channel.createMessage('<:icerror:435574504522121216>  |  No packages found.');
             return;
         }
         let pkg = json;
+        let author = 'Unknown';
+        
+        if (pkg.latest.pubspec.author) {
+            author = pkg.latest.pubspec.author
+        } else if (pkg.latest.pubspec.authors) {
+            author = '';
+            pkg.latest.pubspec.authors.forEach(author1 => {
+                author += author1;
+                author += '\n';
+            });
+        }
+        
         await msg.channel.createMessage({
             embed: {
                 title: pkg.name,
-                url: 'https://pub.dartlang.org/packages/' + pkg.name,
+                url: 'https://pub.dev/packages/' + pkg.name,
                 description: pkg.latest.pubspec.description,
                 fields: [
                     {
@@ -33,7 +45,7 @@ module.exports = class extends Provider {
                     },
                     {
                         name: 'Author',
-                        value: pkg.latest.pubspec.author,
+                        value: author,
                         inline: true
                     }
                 ],
