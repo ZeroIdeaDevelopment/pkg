@@ -21,12 +21,19 @@ module.exports = class extends Provider {
             } else {
                 let pkg = json[0];
                 let maintainers = '';
-                pkg.maintainers.forEach(maintainer => {
-                    maintainers += maintainer.username;
-                    maintainers += ' (';
-                    maintainers += maintainer.email;
-                    maintainers += ')';
-                    maintainers += '\n';
+                pkg.maintainers.some(maintainer => {
+                    let maintainersTmp = '';
+                    maintainersTmp += maintainer.username;
+                    maintainersTmp += ' (';
+                    maintainersTmp += maintainer.email;
+                    maintainersTmp += ')';
+                    maintainersTmp += '\n';
+                    if ((maintainers + maintainersTmp).length > 1024) {
+                        maintainers += '...';
+                        return true; // break
+                    }
+                    maintainers += maintainersTmp;
+                    return false;
                 });
                 await msg.channel.createMessage({
                     embed: {
